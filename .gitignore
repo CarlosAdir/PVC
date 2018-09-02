@@ -2,4 +2,7 @@
 *.aux
 *.idx
 *.out
+*.avi
 Moodle/
+*/output/
+*/input/

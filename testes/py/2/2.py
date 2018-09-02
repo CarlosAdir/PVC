@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
 BLUE = [255,0,0]
-img1 = cv.imread('../img/opencv-logo.jpg')
+img1 = cv.imread('../../input/img/opencv-logo.jpg')
 if type(img1) != None:
 	replicate = cv.copyMakeBorder(img1,10,10,10,10,cv.BORDER_REPLICATE)
 	reflect = cv.copyMakeBorder(img1,10,10,10,10,cv.BORDER_REFLECT)

@@ -3,7 +3,7 @@
 
 import numpy as np
 import cv2 as cv
-cap = cv.VideoCapture('../video/hour.avi')
+cap = cv.VideoCapture('../../input/video/hour.avi')
 while(cap.isOpened()):
     ret, frame = cap.read()
     if ret == False:

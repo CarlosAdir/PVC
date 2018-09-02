@@ -1,7 +1,7 @@
 import numpy as np
 import cv2 as cv
 
-img = cv.imread('../img/messi.jpg')
+img = cv.imread('../../input/img/messi.jpg')
 
 px = img[100,100]
 print( px )
