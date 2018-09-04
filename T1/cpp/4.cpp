@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 	int distancia = 13;
 	Pixel vermelho = Pixel(255, 0, 0);
 
-	cv::VideoCapture cap("../video/hour.avi"); 
+	cv::VideoCapture cap(0);
 
 	// if not success, exit program
 	if (cap.isOpened() == false)  
@@ -91,7 +91,7 @@ int main(int argc, char** argv)
 		else
 			Figura.setImg(tmp);
 
-
+		
 		if(p.x != last.x || p.y != last.y)
 		{
 			exibe_resultado(&Figura, &p);

@@ -27,21 +27,52 @@ Pixel::Pixel(uchar r, uchar g, uchar b)
 {
 	this->setColor(r, g, b);
 }
+bool Pixel::isGray()
+{
+	if(r == g && g == b)
+		return true;
+	return false;
+}
 std::ostream& operator<< (std::ostream& os, Pixel &p)
 {
 	os << "(" << int(p.r)  << ", " << int(p.g) << ", " << int(p.b) << ")";
 	return os;
 }
+
+
+
+
+Ponto::Ponto()
+{
+	this->x = 0;
+	this->y = 0;
+}
+Ponto::Ponto(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+}
+void Ponto::setPonto(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+}
+
+std::ostream& operator<< (std::ostream& os, Ponto &p)
+{
+	os << "(" << int(p.x)  << ", " << int(p.y) << ")";
+	return os;
+}
+
+
+
+
 int distancia_quadrado(Pixel p, Pixel q)
 {
 	int dr, dg, db;
 	dr = int(p.r)-q.r;
 	dg = int(p.g)-q.g;
 	db = int(p.b)-q.b;
-	/*
-	if(dr == dg && dg == db):
-		return dr*dr;
-	*/
 	return dr*dr + dg*dg + db*db; 
 }
 
@@ -56,7 +87,6 @@ imagem::imagem()
 	this->img = cv::Mat();
 	this->rows = 0;
 	this->cols = 0;
-	alreadyReferencia = false;
 }
 
 bool imagem::isGrayScale()
@@ -78,10 +108,10 @@ bool imagem::isGrayScale()
 void imagem::setImg(const std::string filename)
 {
 	this->filename = filename;
-	cv::Mat temp = cv::imread(filename);
-	if(temp.empty())
+	cv::Mat tmp = cv::imread(filename);
+	if(tmp.empty())
 		throw ArquivoNaoExiste(filename); 
-	this->img = temp;
+	this->img = tmp;
 	this->gray = this->isGrayScale();
 }
 void imagem::setImg(const cv::Mat temp)
@@ -98,24 +128,35 @@ cv::Mat imagem::getImg()
 	return this->img;
 }
 
+Pixel imagem::getPixel(const Ponto p)
+{
+	cv::Vec3b a = this->img.at<cv::Vec3b>(p.y, p.x);
+	Pixel novo = Pixel(a[2], a[1], a[0]);
+	return novo;
+}
 Pixel imagem::getPixel(const int x, const int y)
 {
 	cv::Vec3b a = this->img.at<cv::Vec3b>(y, x);
-	Pixel p(a[2], a[1], a[0]);
-	return p;
+	Pixel novo = Pixel(a[2], a[1], a[0]);
+	return novo;
+}
+
+void imagem::setPixel(const Ponto q, const Pixel p)
+{
+	this->img.at<cv::Vec3b>(q.y, q.x) = cv::Vec3b(p.b, p.g, p.r);
 }
 void imagem::setPixel(const int x, const int y, const Pixel p)
 {
 	this->img.at<cv::Vec3b>(y, x) = cv::Vec3b(p.b, p.g, p.r);
 }
+
 void imagem::PintaDistancia(const int distancia, const Pixel nova_cor)
 {
 	int x, y;
-	if(change)
-		for(y = 0; y < this->rows; y++)
-			for(x = 0; x < this->cols; x++)
-				if(  distancia_quadrado(this->getPixel(x, y), this->referencia) < distancia*distancia)
-					this->setPixel(x, y, nova_cor);
+	for(y = 0; y < this->rows; y++)
+		for(x = 0; x < this->cols; x++)
+			if(  distancia_quadrado(this->getPixel(x, y), this->referencia) < distancia*distancia)
+				this->setPixel(x, y, nova_cor);
 }
 void imagem::setReferencia(Pixel p)
 {
@@ -128,4 +169,8 @@ void imagem::setReferencia(Pixel p)
 Pixel imagem::getReferencia()
 {
 	return this->referencia;
+}
+void imagem::reload()
+{
+	this->setImg(this->filename);
 }

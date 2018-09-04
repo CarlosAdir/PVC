@@ -1,23 +1,28 @@
 #include "elementos.hpp"
 
+void exibe_resultado(imagem *Figura, Ponto *p)
+{
+	Pixel pix = Figura->getPixel(*p);
+	std::cout << "Ponto: " << *p << " - ";
+	if(Figura->isGray())
+	{
+		std::cout << "Intensidade = " << int(pix.r) << std::endl;
+	}
+	else
+	{
+		std::cout << "rgb = " << pix << std::endl;
+	}
+}
 
-void CallBackFunc(int event, int x, int y, int flags, void *F)
+
+
+void CallBackFunc(int event, int x, int y, int flags, void *point)
 {
 
-	imagem *Figura = (imagem *)F;
-	Pixel p(255, 0, 0);
+	Ponto *p = (Ponto *)point;
 	if  ( event == cv::EVENT_LBUTTONDOWN )
 	{
-		p = Figura->getPixel(x, y);
-		std::cout << "Ponto: (" << x << ", " << y << ") - ";
-		if(Figura->isGray())
-		{
-			std::cout << "Intensidade = " << int(p.r) << std::endl;
-		}
-		else
-		{
-			std::cout << "rgb = " << p << std::endl;
-		}
+		p->setPonto(x, y);
 	}
 	else if  ( event == cv::EVENT_RBUTTONDOWN )
 	{
@@ -36,10 +41,13 @@ void CallBackFunc(int event, int x, int y, int flags, void *F)
 
 int main(int argc, char** argv)
 {
-	// Read image from file
-	//std::string filename = "../img/colored/messi.jpg" ;
-	std::string filename = "../img/grayscale/messi.jpg" ;
+	std::string filename = "../img/colored/messi.jpg" ;
+	//std::string filename = "../img/grayscale/messi.jpg" ;
+	Ponto p 	= Ponto(-1, -1);
+	Ponto last  = Ponto(-2, -1);
 	imagem Figura;
+	int key;
+
 	try
 	{
 		Figura.setImg(filename);
@@ -50,22 +58,43 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
+
+
+
 	if(Figura.isGray())
 		std::cout << "A imagem eh preta e branca" << std::endl;
 	else
 		std::cout << "A imagem eh colorida" << std::endl;
 
+
+
+
+
 	//Create a window
 	cv::namedWindow("My Window", 1);
 
 	//set the callback function for any mouse event
-	cv::setMouseCallback("My Window", CallBackFunc, &Figura);
+	cv::setMouseCallback("My Window", CallBackFunc, (void *)(&p));
+
+
+	
 
 	// Wait until user press some key
-	do
+	while(true)
 	{
-		cv::imshow("My Window", Figura.getImg());
-	}while(cv::waitKey(0) != 27);
+		if(p.x != last.x || p.y != last.y)
+		{
+			exibe_resultado(&Figura, &p);
+			last.x = p.x;
+			last.y = p.y;
+			cv::imshow("My Window", Figura.getImg());
+		}
+		key = cv::waitKey(10);
+		if(key == 27)
+			break;
+		else if(key == 'r')
+			Figura.setImg(filename);
+	}
 	std::cout << "Esc key was pressed by user." << std::endl;
 	
 	return 0;

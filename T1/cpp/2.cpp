@@ -1,27 +1,30 @@
 #include "elementos.hpp"
 
+void exibe_resultado(imagem *Figura, Ponto *p)
+{
+	Pixel referencia = Figura->getPixel(*p);
+	std::cout << "Ponto: " << *p << " - ";
+	if(Figura->isGray())
+	{
+		std::cout << "Intensidade = " << int(referencia.r) << std::endl;
+	}
+	else
+	{
+		std::cout << "rgb = " << referencia << std::endl;
+	}
+	referencia = Figura->getPixel(*p);
+	Figura->setReferencia(referencia);
+}
 
-void CallBackFunc(int event, int x, int y, int flags, void *F)
+
+
+void CallBackFunc(int event, int x, int y, int flags, void *point)
 {
 
-	imagem *Figura = (imagem *)F;
-	Pixel vermelho(255, 0, 0);
-	Pixel referencia;
-	int distancia = 13;
+	Ponto *p = (Ponto *)point;
 	if  ( event == cv::EVENT_LBUTTONDOWN )
 	{
-		referencia = Figura->getPixel(x, y);
-		Figura->setReferencia(referencia);
-		std::cout << "Ponto: (" << x << ", " << y << ") - ";
-		if(Figura->isGray())
-		{
-			std::cout << "Intensidade = " << int(referencia.r) << std::endl;
-		}
-		else
-		{
-			std::cout << "rgb = " << referencia << std::endl;
-		}
-		Figura->PintaDistancia(distancia, vermelho);
+		p->setPonto(x, y);
 	}
 	else if  ( event == cv::EVENT_RBUTTONDOWN )
 	{
@@ -40,19 +43,15 @@ void CallBackFunc(int event, int x, int y, int flags, void *F)
 
 int main(int argc, char** argv)
 {
-	// Read image from file
 	//std::string filename = "../img/colored/messi.jpg" ;
 	std::string filename = "../img/grayscale/messi.jpg" ;
+	Ponto p 	= Ponto(-1, -1);
+	Ponto last  = Ponto(-1, -1);
+	Pixel vermelho = Pixel(255, 0, 0);
+	int distancia = 13;
 	imagem Figura;
 	int key;
 
-	//Create a window
-	cv::namedWindow("My Window", 1);
-
-	//set the callback function for any mouse event
-	cv::setMouseCallback("My Window", CallBackFunc, &Figura);
-
-	// Wait until user press some key
 	try
 	{
 		Figura.setImg(filename);
@@ -62,13 +61,40 @@ int main(int argc, char** argv)
 		A.Msg();
 		return 0;
 	}
+
+
+
+
 	if(Figura.isGray())
 		std::cout << "A imagem eh preta e branca" << std::endl;
 	else
 		std::cout << "A imagem eh colorida" << std::endl;
+
+
+
+
+
+	//Create a window
+	cv::namedWindow("My Window", 1);
+
+	//set the callback function for any mouse event
+	cv::setMouseCallback("My Window", CallBackFunc, (void *)(&p));
+
+
+	
+	cv::imshow("My Window", Figura.getImg());
+	// Wait until user press some key
 	while(true)
 	{
-		cv::imshow("My Window", Figura.getImg());
+		if(p.x != last.x || p.y != last.y)
+		{
+			Figura.reload();
+			exibe_resultado(&Figura, &p);
+			last.x = p.x;
+			last.y = p.y;
+			Figura.PintaDistancia(distancia, vermelho);
+			cv::imshow("My Window", Figura.getImg());
+		}
 		key = cv::waitKey(10);
 		if(key == 27)
 			break;
@@ -76,7 +102,7 @@ int main(int argc, char** argv)
 			Figura.setImg(filename);
 	}
 	std::cout << "Esc key was pressed by user." << std::endl;
-
+	
 	return 0;
 
 }
