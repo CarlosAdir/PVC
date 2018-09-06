@@ -42,7 +42,7 @@ public:
 int distancia_quadrado(Pixel p, Pixel q);
 
 
-class imagem
+class Imagem
 {
 private:
 	std::string filename;
@@ -54,7 +54,7 @@ private:
 	Pixel referencia;
 	bool alreadyReferencia;
 public:
-	imagem();
+	Imagem();
 
 
 	void setPixel(const Ponto q, const Pixel p);

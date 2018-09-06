@@ -1,6 +1,6 @@
 #include "elementos.hpp"
 
-void exibe_resultado(imagem *Figura, Ponto *p)
+void exibe_resultado(Imagem *Figura, Ponto *p)
 {
 	Pixel referencia = Figura->getPixel(*p);
 	std::cout << "Ponto: " << *p << " - ";
@@ -43,13 +43,13 @@ void CallBackFunc(int event, int x, int y, int flags, void *point)
 
 int main(int argc, char** argv)
 {
-	//std::string filename = "../img/colored/messi.jpg" ;
-	std::string filename = "../img/grayscale/messi.jpg" ;
+	std::string filename = "../img/colored/messi.jpg" ;
+	//std::string filename = "../img/grayscale/messi.jpg" ;
 	Ponto p 	= Ponto(-1, -1);
 	Ponto last  = Ponto(-1, -1);
 	Pixel vermelho = Pixel(255, 0, 0);
 	int distancia = 13;
-	imagem Figura;
+	Imagem Figura;
 	int key;
 
 	try

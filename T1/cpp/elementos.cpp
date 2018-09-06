@@ -82,14 +82,14 @@ int distancia_quadrado(Pixel p, Pixel q)
 
 
 
-imagem::imagem()
+Imagem::Imagem()
 {
 	this->img = cv::Mat();
 	this->rows = 0;
 	this->cols = 0;
 }
 
-bool imagem::isGrayScale()
+bool Imagem::isGrayScale()
 {
 	int i, j;
 	this->rows = this->img.rows;
@@ -105,7 +105,7 @@ bool imagem::isGrayScale()
 	return true;
 }
 
-void imagem::setImg(const std::string filename)
+void Imagem::setImg(const std::string filename)
 {
 	this->filename = filename;
 	cv::Mat tmp = cv::imread(filename);
@@ -114,43 +114,43 @@ void imagem::setImg(const std::string filename)
 	this->img = tmp;
 	this->gray = this->isGrayScale();
 }
-void imagem::setImg(const cv::Mat temp)
+void Imagem::setImg(const cv::Mat temp)
 {; 
 	this->img = temp;
 	this->gray = this->isGrayScale();
 }
-bool imagem::isGray()
+bool Imagem::isGray()
 {
 	return this->gray;
 }
-cv::Mat imagem::getImg()
+cv::Mat Imagem::getImg()
 {
 	return this->img;
 }
 
-Pixel imagem::getPixel(const Ponto p)
+Pixel Imagem::getPixel(const Ponto p)
 {
 	cv::Vec3b a = this->img.at<cv::Vec3b>(p.y, p.x);
 	Pixel novo = Pixel(a[2], a[1], a[0]);
 	return novo;
 }
-Pixel imagem::getPixel(const int x, const int y)
+Pixel Imagem::getPixel(const int x, const int y)
 {
 	cv::Vec3b a = this->img.at<cv::Vec3b>(y, x);
 	Pixel novo = Pixel(a[2], a[1], a[0]);
 	return novo;
 }
 
-void imagem::setPixel(const Ponto q, const Pixel p)
+void Imagem::setPixel(const Ponto q, const Pixel p)
 {
 	this->img.at<cv::Vec3b>(q.y, q.x) = cv::Vec3b(p.b, p.g, p.r);
 }
-void imagem::setPixel(const int x, const int y, const Pixel p)
+void Imagem::setPixel(const int x, const int y, const Pixel p)
 {
 	this->img.at<cv::Vec3b>(y, x) = cv::Vec3b(p.b, p.g, p.r);
 }
 
-void imagem::PintaDistancia(const int distancia, const Pixel nova_cor)
+void Imagem::PintaDistancia(const int distancia, const Pixel nova_cor)
 {
 	int x, y;
 	for(y = 0; y < this->rows; y++)
@@ -158,7 +158,7 @@ void imagem::PintaDistancia(const int distancia, const Pixel nova_cor)
 			if(  distancia_quadrado(this->getPixel(x, y), this->referencia) < distancia*distancia)
 				this->setPixel(x, y, nova_cor);
 }
-void imagem::setReferencia(Pixel p)
+void Imagem::setReferencia(Pixel p)
 {
 	this->alreadyReferencia = true;
 
@@ -166,11 +166,11 @@ void imagem::setReferencia(Pixel p)
 	this->referencia.g = p.g;
 	this->referencia.b = p.b;
 }
-Pixel imagem::getReferencia()
+Pixel Imagem::getReferencia()
 {
 	return this->referencia;
 }
-void imagem::reload()
+void Imagem::reload()
 {
 	this->setImg(this->filename);
 }

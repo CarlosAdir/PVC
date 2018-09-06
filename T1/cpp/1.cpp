@@ -1,6 +1,6 @@
 #include "elementos.hpp"
 
-void exibe_resultado(imagem *Figura, Ponto *p)
+void exibe_resultado(Imagem *Figura, Ponto *p)
 {
 	Pixel pix = Figura->getPixel(*p);
 	std::cout << "Ponto: " << *p << " - ";
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 	//std::string filename = "../img/grayscale/messi.jpg" ;
 	Ponto p 	= Ponto(-1, -1);
 	Ponto last  = Ponto(-2, -1);
-	imagem Figura;
+	Imagem Figura;
 	int key;
 
 	try
