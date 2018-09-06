@@ -1,0 +1,127 @@
+Objetivo
+
+Esta atividade tem como objetivo principal avaliar os aspectos da calibração de câmeras, realizando o desenvolvimento de uma "régua visual".
+Procedimentos
+Requisito 1: medição de um segmento de reta
+
+Desenvolva uma aplicação que a partir da utilização de uma entrada (clique de mouse), seja capaz de capturar a posição inicial [xi,yi] (primeiro clique de mouse) e a posição final [xf,yf] (segundo clique do mouse) e permita desenhar uma linha na tela.
+
+Sugestão: utilize uma função de chamada ao sistema pelo mouse do OpenCV, como feito para o PD1.
+
+Calcule o comprimento desta linha em pixels e imprima-o no console. O comprimento deverá ser dado pela distância Euclidiana bidimensional.
+
+Requisito 2: calibração de intrínsecos
+
+Realize a calibração de uma câmera digital, gerando os arquivos "XML" com os parâmetros intrínsecos e distorções provenientes do processo de calibração. Utilize para o desenvolvimento da aplicação de forma mais simples, o programa de calibração disponibilizado no tópico da atividade, incluindo o padrão de calibração. A partir da saída do vídeo na janela "raw" e "undistorted" desta aplicação, acople-a ao código da aplicação desenvolvida no Requisito 1 de forma que seja possível medir distâncias em pixels nessas duas janelas.
+Observações
+
+Para a calibração, capture pelo menos 5 imagens (spanspots), apresentando o padrão de tabuleiro de xadrez, lembrando o tamanho do tabuleiro é definido de acordo com a resolução da impressora utilizada. Utilize uma régua de qualidade para medir as dimensões da área do padrão de referência impresso.
+Em cada snapshot, posicione o tabuleiro em várias posições de forma que a maioria das áreas visíveis da imagem seja explorada. Isto é de fundamental importância para que os parâmetros de distorção da câmera sejam estimados mais precisamente.
+Repita este procedimento pelo menos 5 (cinco) vezes. No programa disponibilizado, cada execução gera um XML separado. Para todos os parâmetros obtidos, tire a média e o desvio padrão para cada parâmetro da calibração obtido. Alternativamente, você pode calcular essas médias e desvios padrões internamente no seu programa.
+
+Atenção: para os próximos passos, utilize a média destes parâmetros obtidos, registrados em um novo arquivo XML tanto para a distorção (distortion.xml), quanto para os parâmetros intrínsecos (intrisics.xml).
+
+Dica importante: realize o processo de calibração em um ambiente com boa iluminação.
+Requisito 3: calibração de extrínsecos
+
+Meça, com uma boa régua, os retângulos do padrão de calibração impresso e use esse padrão para determinar o sistema de coordenadas do mundo (world coordinate frame).
+
+Armazene as coordenadas reais dos 48 pontos do padrão. Assuma que o sistema de coordenadas do mundo tenha a origem [0,0,0]T no primeiro ponto da página (i.e., primeira interseção entre quatro retângulos) e que o papel esteja alinhado com as coordenadas X e Y (ou seja, Z=0 para todos os pontos do padrão de calibração).
+
+Implemente um programa que use as medidas acima, bem como os dados de calibração obtidos para o requisito 2, para calcular os parâmetros extrínsecos da câmera.
+
+Repita esse processo de calibração de extrínsecos com o padrão de calibração situado a pelo menos 3 distâncias diferentes do centro da câmera:
+
+    dmin: o mais próximo possível, desde que todos os 48 pontos sejam visíveis,
+    dmax: o mais distante possível, desde que esses pontos possam ser capturados pelo algoritmo,
+    dmed: e numa distância intermediária.
+
+Ao realizar tais calibrações, meça com uma trena a distância entre o centro da câmera e a origem do padrão de calibração e use isso para avaliar os resultados de calibração obtidos, ou seja, verifique a similaridade entre essa distância e a norma do vetor de translação do mundo para a câmera |t|. Anote seus resultados e discuta o efeito da distância no calculo dos parâmetros de translação. Para cada posição acima (dmin, dmed e dmax), repita o processo pelo menos 3 vezes para poder calcular a média e o desvio padrão da distância entre a coordenada do mundo e a da câmera. Esse desvio padrão informa quão confiáveis são as estimativas.
+Requisito 4: régua visual
+
+Terminado o processo de calibração acima e utilizando a imagem de vídeo das saídas "raw" e "undistorted" definidas pela aplicação e algum objeto com dimensão (altura ou largura) conhecida faça, para cada posição (dmin, dmed e dmax) as seguintes operações:
+
+    Meça o objeto conhecido usando o procedimento do requisito 1 em ambas imagens (raw e undistorted).
+    Com cliques de mouse, você obterá medidas em pixels em ambas imagens. Usando os parâmetros de calibração obtidos, mapeie essas medidas para metros.
+    Anote os resultados obtidos (metidas, em metro) do objeto para cada distância (dmin, dmed e dmax), e também usando medidas feitas nas imagens raw e undistorted. Anote também o valor real do tamanho do objeto (conforme medido, por exemplo, com uma régua).
+    Execute o processo acima ao menos duas vezes para cada distância da câmera, adquirindo medições do objeto situado próximo ao centro da imagem e também próximo a uma das bordas da imagem.
+    Faça tabelas consolidadas (já utilizando os valores médios e desvio padrão) com estes resultados, como indicado abaixo.
+
+| Posição do padrão de calibração           | dmin | dmed | dmax |
+| |t|, medida pela trena                    |      |      |      |
+| |t|, calculada pela calibração extrínseca |      |      |      | 	  	  	 
+| lraw,centre                               |      |      |      |
+| lraw,perifery                             |      |      |      |
+| lundistorted,centre                       |      |      |      |
+| lundistorted,perifery                     |	   |      |      |
+
+onde
+
+    t é o vetor de translação entre o centro da câmera e a origem do objeto de calibração e |t| é sua norma, ou seja, a distância entre a câmera e o objeto de calibração.
+    lraw,centre é o comprimento do objeto conhecido (que foi previamente medido com uma régua), em milímetros, conforme calculado a partir de cliques do mouse na imagem raw, para o objeto localizado próximo ao centro da imagem.
+    lraw,perifery é o comprimento (mm) do objeto, conforme calculado a partir de cliques do mouse na imagem raw, para o objeto localizado próximo à periferia (uma das bordas) da imagem.
+    lundistorted,centre é o comprimento (mm) do objeto, conforme calculado a partir da imagem undistorted, para o objeto localizado próximo ao centro da imagem.
+    lundistorted,perifery é o comprimento (mm) do objeto, conforme calculado a partir da imagem undistorted, para o objeto localizado próximo à periferia imagem.
+
+Requisito 5: análise
+
+Discuta os principais elementos causadores das variações das medições obtidas com a esperada (medida real do objeto avaliado). Avalie a característica do hardware da câmera e quais fatores podem ser os causadores destas possíveis diferenças. Proponha/discuta quais fatores podem ser melhorados/aprimorados para que esta medição seja feita com a maior precisão possível.
+Instruções para Elaboração do Relatório
+
+O relatório deve demonstrar que os experimentos foram realizados e que os princípios subjacentes foram compreendidos.
+
+Deverá conter as seguintes partes:
+
+    Identificação: Possuir a indicação clara do título do projeto demonstrativo abordado, nome do(s) autor(es), e quando houver, número(s) de matrícula e e-mail(s).
+    Resumo: Breve resumo do projeto e das suas conclusões.
+    Introdução: Apresentar de forma clara, porém sucinta, os objetivos do projeto demonstrativo. Deve conter também uma breve explanação do conhecimento básico relacionado ao projeto e uma breve revisão bibliográfica relacionada ao problema. Utilize sempre fontes bibliográficas confiáveis (livros e artigos científicos), evitando utilizar única e exclusivamente fontes de baixa confiabilidade (Wikipédia, Stackoverflow,...).
+    Metodologia: É dedicada a uma exposição dos métodos e procedimentos adotados no projeto demonstrativo. Descreva os métodos usando notação matemática ou algoritmos. Não insira código fonte, seu relatório deve ser independente da linguagem de programação utilizada. Apresente materiais e equipamentos utilizados, descrição do arranjo experimental e uma exposição minuciosa do procedimento do projeto demonstrativo realmente adotado. Porém, deixe detalhes sobre o código, instalação e execução dos programas num arquivo read_me.txt, que deve se localizar no diretório "raiz" da sua submissão. 
+    Resultados: Nessa parte são apresentados os resultados das implementações efetuadas, na forma de tabelas e figuras, sem se esquecer de identificar em cada caso os parâmetros utilizados. Rotule todos os eixos dos gráficos apresentados. Caso o projeto demonstrativo tenha vários requisitos independentes, você pode criar uma seção para cada requisito e apresentar subseções de metodologia e resultados para cada um.
+    As seções acima (metodologia e resultados) podem ser divididas por requisito. Por exemplo, pode ser feita uma seção por requisito, cada qual contendo uma subseção de metodologia e de resultados.
+    Discussão e Conclusões: A discussão visa comparar os resultados obtidos e os previstos pela teoria. Deve-se justificar eventuais discrepâncias observadas. As conclusões resumem a atividade e destacam os principais resultados e aplicações dos conceitos vistos.
+    Bibliografia: Citar as fontes consultadas, respeitando as regras de apresentação de bibliografia (autor, título, editora, edição, ano, página de início e fim). Inclua o máximo possível de informações nas referências, por exemplo, inclua todos os autores e evite o uso de "et al." na lista de referências. No caso de citação de página da web, tente identificar seus autores e data da última atualização. Somente quando tais informações estão disponíveis, indique a data em que você visitou a página.
+
+O relatório deverá ser confeccionado em editor eletrônico de textos com no máximo 7 (sete) páginas (sem contar as referencias bibliográficas), utilizando obrigatoriamente o padrão de formatação descrito no arquivo de exemplo disponibilizado aqui, para processadores de texto LaTeX. Não serão permitidos relatórios confeccionados em outro processador de texto, ou usando um modelo diferente do padrão LaTeX disponibilizado.
+Instruções para Submissão da atividade de Projeto Demonstrativo
+
+Esta tarefa consiste na submissão de um arquivo único comprimido em formato ZIP, TAR.GZ ou TGZ, contendo um arquivo PDF do relatório elaborado e também o código fonte desenvolvido, obrigatoriamente em C/C++ ou Python, e um arquivo read_me.txt com informações práticas.
+
+Inclua somente:
+
+    Um arquivo read_me.txt, explicando o conteúdo dos seus diretórios e requisitos para a instalação e execução dos seus programas. Se um repositório de controle de versão foi usado no desenvolvimento do trabalho (de preferência GitLab), por favor inclua seu endereço nesse arquivo. Recomendo o uso de repositórios externos principalmente para adicionar dados ou arquivos de parâmetros, evitando de sobrecarregar este sistema Moodle (que tem um limite máximo de 50MB por submissão).
+    PDF do seu relatório;
+    Código fonte dos seus programas;
+    Scripts (por exemplo, Makefile, shell.sh, CMakeLists.txt etc, quando existirem);
+    Código fonte do relatório (arquivos .tex, .bib, .sty, imagens incluídas no relatório);
+    Caso seja desejado incluir material suplementar (resultados adicionais, descrição mais detalhada dos métodos, análises, provas matemáticas, etc), é permitida a inclusão de algumas imagens e pequenos vídeos ou mesmo um documento, no mesmo formato que o relatório, porém claramente identificado como material suplementar.
+
+Não incluir:
+
+    Arquivos compilados nem arquivos auxiliares (object files, arquivos temporários do LaTeX, etc),
+    Imagens e video que já foram fornecidas no Moodle (a menos que elas sejam necessárias para compilar seu relatório em LaTeX).
+    Caso você esteja usando um repositório com controle de versão (como o Git ou SVN), favor não incluir os arquivos de controle (por exemplo, o diretório .svn ou .git).
+
+O código submetido deverá ser utilizável em ambiente Linux. Para referência, o ambiente que será utilizado para a correção das atividades é Ubuntu 16.04 64 bits utilizando a versão 3.2.0 do OpenCV e Python 3.5.2.
+Critérios de Avaliação
+
+    read_me.txt: 5%
+    Requisito 1: 10%
+    Requisito 2: 10%
+    Requisito 3: 10%
+    Requisito 4: 15%
+    Bônus: 20%
+    Formatação do relatório: 5%
+    Tamanho correto: se o relatório tiver mais de 7 paginas (sem contar referencias), -50% da nota será descontada.
+    Resumo, Introdução: 5%
+    Metodologia: 10%
+    Resultados e análise: 15%
+    Conclusões: 10%
+    Bibliografia: 5%
+    Penalidade por entrega atrasada: -20%
+
+Um bônus de até 20% poderá ser dado caso sejam apresentados e avaliados múltiplos métodos de estimação da pose da câmera (parâmetros extrínsecos).
+
+Esta atividade é individual para alunos da pós-graduação.
+No caso de alunos de graduação, ela pode ser realizada em duplas. Nesse caso, inclua, na primeira página do relatório, uma nota de rodapé detalhando claramente qual foi a contribuição de cada autor.
+
+Caso seja detectado plagio, todos alunos envolvidos ficarão com nota zero.
