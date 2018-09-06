@@ -41,8 +41,8 @@ void CallBackFunc(int event, int x, int y, int flags, void *point)
 
 int main(int argc, char** argv)
 {
-	std::string filename = "../img/colored/messi.jpg" ;
-	//std::string filename = "../img/grayscale/messi.jpg" ;
+	std::string filename = "../input/img/colored/messi.jpg" ;
+	//std::string filename = "../input/img/grayscale/messi.jpg" ;
 	Ponto p 	= Ponto(-1, -1);
 	Ponto last  = Ponto(-2, -1);
 	Imagem Figura;

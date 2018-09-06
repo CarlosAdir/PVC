@@ -51,9 +51,9 @@ int main(int argc, char** argv)
 	Ponto last  = Ponto(-2, -1);
 	Imagem Figura;
 	cv::Mat tmp;
+	const int distancia = 13;
 	int key;
 	bool grayscale = false;
-	int distancia = 13;
 	Pixel vermelho = Pixel(255, 0, 0);
 
 	cv::VideoCapture cap(0);

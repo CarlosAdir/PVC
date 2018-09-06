@@ -51,10 +51,10 @@ int main(int argc, char** argv)
 	cv::Mat tmp;
 	int key;
 	bool grayscale = false;
-	int distancia = 13;
+	const int distancia = 13;
 	Pixel vermelho = Pixel(255, 0, 0);
 
-	cv::VideoCapture cap("../video/laboratorio.avi"); 
+	cv::VideoCapture cap("../input/video/laboratorio.avi"); 
 
 	// if not success, exit program
 	if (cap.isOpened() == false)  

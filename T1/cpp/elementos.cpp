@@ -73,6 +73,8 @@ int distancia_quadrado(Pixel p, Pixel q)
 	dr = int(p.r)-q.r;
 	dg = int(p.g)-q.g;
 	db = int(p.b)-q.b;
+	if(dr == dg && dg == db)
+		return dr*dr;
 	return dr*dr + dg*dg + db*db; 
 }
 

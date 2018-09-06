@@ -1,0 +1,21 @@
+\section{Metodologia}
+\label{metodologia}
+
+Primeiro passo foi definir a linguagem de utilização, e foi escolhida a linguagem C++ para cumprir os requisitos. Isso porque um dos objetivos futuros é aplicação de visão computacional em sistemas embarcados, e a utilização de uma linguagem mais veloz embora mais complexa se torna necessário. A metodologia de projeto consistiu em dividir o Projeto Demonstrativo em 4 partes, na mesma divisão dos requisitos. Cada parte foi implementada separadamente:
+
+\subsection{Requisito 1}
+
+Primeira ação foi a criação de uma estrutura de classes para facilitar a implementação e deixar o código versátil. As classes implementadas foram em um total de 3 com seus respectivos atributos e metodos. Com essas classes, planejou-se fazer um código simples. A ideia principal era criar o código inicial que fosse utilizado em todos os outros requisitos.
+
+\subsection{Requisito 2}
+
+Para o requisito 2, a abordagem foi utilizar o código do requisito 1 para armazenamento de imagem e captura de dados, e criar um método dentro da classe da imagem que permita colorir todos os pixeis similares, com uma distância próxima
+
+\subsection{Requisito 3}
+
+A abordagem consistiu em utilizar o mesmo código do requisito anterior, em que colore a imagem a partir do clique, mas que utilize uma referência(um atributo do objeto) para caso o video mude, o algoritmo mantenha o pixel de interesse e não a posição. Outro fator nessa parte é de, diferente de outros casos em que só muda a imagem quando há clique, a todo momento um novo frame do vídeo é carregado e deve ser mostrado.
+
+\subsection{Requisito 4}
+
+A abordagem consistiu em utilizar o código do requisito 3, mas em vez do input ser um arquivo, ser a própria câmera do usuário. Em termos práticos, mudar apenas uma linha. 
+
