@@ -13,4 +13,4 @@ main.o: elementos.o
 	g++ -c -ggdb main.cpp -Wall -ansi -std=c++11 -fpermissive
 
 clean:
-	rm *.o
+	if [ "`ls -1 *.o 2>/dev/null | wc -l`" != 0 ]; then rm *.o; fi

@@ -22,6 +22,8 @@ Repita este procedimento pelo menos 5 (cinco) vezes. No programa disponibilizado
 Atenção: para os próximos passos, utilize a média destes parâmetros obtidos, registrados em um novo arquivo XML tanto para a distorção (distortion.xml), quanto para os parâmetros intrínsecos (intrisics.xml).
 
 Dica importante: realize o processo de calibração em um ambiente com boa iluminação.
+
+
 Requisito 3: calibração de extrínsecos
 
 Meça, com uma boa régua, os retângulos do padrão de calibração impresso e use esse padrão para determinar o sistema de coordenadas do mundo (world coordinate frame).
@@ -37,6 +39,8 @@ Repita esse processo de calibração de extrínsecos com o padrão de calibraç�
     dmed: e numa distância intermediária.
 
 Ao realizar tais calibrações, meça com uma trena a distância entre o centro da câmera e a origem do padrão de calibração e use isso para avaliar os resultados de calibração obtidos, ou seja, verifique a similaridade entre essa distância e a norma do vetor de translação do mundo para a câmera |t|. Anote seus resultados e discuta o efeito da distância no calculo dos parâmetros de translação. Para cada posição acima (dmin, dmed e dmax), repita o processo pelo menos 3 vezes para poder calcular a média e o desvio padrão da distância entre a coordenada do mundo e a da câmera. Esse desvio padrão informa quão confiáveis são as estimativas.
+
+
 Requisito 4: régua visual
 
 Terminado o processo de calibração acima e utilizando a imagem de vídeo das saídas "raw" e "undistorted" definidas pela aplicação e algum objeto com dimensão (altura ou largura) conhecida faça, para cada posição (dmin, dmed e dmax) as seguintes operações:
