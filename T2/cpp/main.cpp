@@ -12,55 +12,6 @@ void CallBackFunc(int event, int x, int y, int flags, void *f)
 	fila->push(novo_evento);
 }
 
-void line(Imagem *img, cv::Point p1, cv::Point p2, Pixel color, int thickness = 3)
-{
-	int i, j;
-	int xe, xd; // x esquerdo e x direito
-	int yi, ys; // y inferior e y superior
-	double a, b, c, d;
-	a = p2.y-p1.y;
-	b = p2.x-p1.x;
-	c = p1.x*p2.y-p2.x-p1.y;
-	d = sqrt(a*a+b*b);
-	std::cout << "a = " << a << std::endl;
-	std::cout << "b = " << b << std::endl;
-	std::cout << "c = " << c << std::endl;
-	std::cout << "d = " << d << std::endl;
-	if(p1.x > p2.x)
-	{	
-		xe = p2.x;
-		xd = p1.x;
-	}
-	else
-	{
-		xe = p1.x;
-		xd = p2.x;
-	}
-	if(p1.y > p2.y)
-	{
-		yi = p2.y;
-		ys = p1.y;
-	}
-	else
-	{
-		yi = p1.y;
-		ys = p2.y;
-	}
-	for(i = yi; i <= ys; i++)
-	{
-		for(j = xe; j <= xd; j++)
-		{
-			if(abs(a*j+b*i+c)/d < thickness)
-			{
-				std::cout << "some" << std::endl;
-				img->setPixel(j, i, color);
-			}
-		}
-	}
-
-
-}
-
 int main(int argc, char** argv)
 {
 	queue<EventoMouse> fila;
@@ -71,8 +22,8 @@ int main(int argc, char** argv)
 	int key;
 
 	// Para definir as cores
-	Pixel black = Pixel(0, 0, 0);
-
+	//Color black = Color(0, 0, 0);
+	const Scalar black = Scalar(0);
 	// Para determinar os pontos iniciais e finais para se medir a distância
 	int xa, ya, xb, yb;
 	bool pa = false, pb = false, draw_line = false;
@@ -91,7 +42,6 @@ int main(int argc, char** argv)
 
 	while(true)
 	{
-
 		bool bSuccess = cap.read(tmp);
 		if (bSuccess == false) 
 		{
@@ -107,7 +57,7 @@ int main(int argc, char** argv)
 		}
 		if(draw_line == true)
 		{
-			//line(img, cv::Point(xa, ya), cv::Point(xb, yb), black, 3);
+			cv::line(img->getImg(), cv::Point(xa, ya), cv::Point(xb, yb), black);
 		}
 		cv::imshow(window_name, img->getImg());
 		key = cv::waitKey(10);

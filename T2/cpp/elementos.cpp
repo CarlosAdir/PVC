@@ -71,23 +71,35 @@ std::ostream& operator<< (std::ostream& os, EventoMouse &evento)
 
 
 
-void Pixel::setColor(uchar r, uchar g, uchar b)
+void Color::set(unsigned char r, unsigned char g, unsigned char b)
 {
 	this->r = r;
 	this->g = g;
 	this->b = b;
 }
-Pixel::Pixel()
+Color::Color()
 {
-	this->setColor(0, 0, 0);
+	this->set(0, 0, 0);
 }
-Pixel::Pixel(uchar r, uchar g, uchar b)
+Color::Color(unsigned char r, unsigned char g, unsigned char b)
 {
-	this->setColor(r, g, b);
+	this->set(r, g, b);
 }
-std::ostream& operator<< (std::ostream& os, Pixel &p)
+const unsigned char Color::getR()
 {
-	os << "(" << int(p.r)  << ", " << int(p.g) << ", " << int(p.b) << ")";
+	return this->r;
+}
+const unsigned char Color::getG()
+{
+	return this->g;
+}
+const unsigned char Color::getB()
+{
+	return this->b;
+}
+std::ostream& operator<< (std::ostream& os, Color &p)
+{
+	os << "(" << p.getR()  << ", " << p.getG() << ", " << p.getB() << ")";
 	return os;
 }
 
@@ -110,16 +122,17 @@ cv::Mat Imagem::getImg()
 	return this->img;
 }
 
-Pixel Imagem::getPixel(const int x, const int y)
+Color Imagem::getColor(const int x, const int y)
 {
 	cv::Vec3b a = this->img.at<cv::Vec3b>(y, x);
-	Pixel novo = Pixel(a[2], a[1], a[0]);
+	Color novo = Color(a[2], a[1], a[0]);
 	return novo;
 }
 
-void Imagem::setPixel(const int x, const int y, const Pixel p)
+void Imagem::setColor(const int x, const int y, const Color p)
 {
-	this->img.at<cv::Vec3b>(y, x) = cv::Vec3b(p.b, p.g, p.r);
+	Color k = p;
+	this->img.at<cv::Vec3b>(y, x) = cv::Vec3b(k.getB(), k.getG(), k.getR());
 }
 Imagem::~Imagem()
 {

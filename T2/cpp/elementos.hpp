@@ -24,16 +24,18 @@ public:
 };
 
 
-class Pixel
+class Color
 {
 private:
-	void setColor(uchar r, uchar g, uchar b);
+	unsigned char r, g, b;
 public:
-	uchar r, g, b;
-	bool isGray();
-	Pixel();
-	Pixel(uchar r, uchar g, uchar b);
-	friend std::ostream& operator<< (std::ostream& os, Pixel &p);
+	Color();
+	Color(unsigned char r, unsigned char g, unsigned char b);
+	void set(unsigned char r, unsigned char g, unsigned char b);
+	const unsigned char getR();
+	const unsigned char getG();
+	const unsigned char getB();
+	friend std::ostream& operator<< (std::ostream& os, Color &p);
 };
 
 
@@ -43,8 +45,8 @@ private:
 	cv::Mat img;
 public:
 	Imagem();
-	void setPixel(const int x, const int y, const Pixel p);
-	Pixel getPixel(const int x, const int y);
+	void setColor(const int x, const int y, const Color p);
+	Color getColor(const int x, const int y);
 	void setImg(const cv::Mat temp);
 	cv::Mat getImg();
 	~Imagem();
