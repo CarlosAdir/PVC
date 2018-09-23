@@ -2,16 +2,22 @@
 \label{metodologia}
 %\lipsum[1]
 
-A metodologia consistiu em seguir os passos dos requisitos necessários. Para implementação primeiramente pensou-se em utilizar C++, mas por dificuldade na utilização de funções especificas da OpenCV optou-se por utilizar Python. Para escolha da câmera, optou-se por uma câmera de alta resolução com o foco autoajustável para verificar o efeito do foco sobre os parâmetros das matrizes $In$ e $Ex$ da Equação (\ref{eq:matrizes}).
+A metodologia consistiu em seguir os passos dos requisitos necessários. 
 
 Para o primeiro requisito, a metodologia consistiu em adaptar o código implementado em C++ no Projeto Demonstrativo 1.
 
 Para o segundo e terceiro requisito, consistiu primeiramente em selecionar um tabuleiro de xadrez com $6\times 8$ interseções e cada quadrado com $30$ mm de lado, imprimiu-se e colou-se em um papelão espesso.
 
-Com o tabuleiro, escolheu-se fazer 5 pacotes de medições com 25 imagens do tabuleiro em cada pacote. Cada imagem dentre as 25 eram bem similares entre si, enquanto imagem entre pacotes ficam em regiões separadas da imagem para haver uma abrangência maior. Para evitar perda de tempo lidando com o padrão frequentemente, planejou-se fazer um código para armazenar as imagens com padrão do tabuleiro assim que fossem capturadas.
+Com o tabuleiro, faz 5 pacotes de medições com 25 imagens do tabuleiro em cada pacote. Cada imagem em um pacote bem similares entre si, enquanto imagem entre pacotes ficam em regiões separadas da imagem para haver uma abrangência maior. Para evitar perda de tempo capturando o padrão frequentemente, planejou-se fazer um código para armazenar as imagens com padrão do tabuleiro assim que fossem capturadas, o qual foi chamado de \textit{get\_images}.
 
-Então, para verificar o efeito da distância sobre os parâmetros, fez-se o processo de 5 pacotes para 3 distâncias: a mais distante que ainda capturava o padrão, a menor distância que se reconhecia todos os pontos do tabuleiro, e uma distância intermediária. Apenas para a distância mais próxima era possível apenas 1 pacote de medição, visto que o tabuleiro ocupa a tela totalmente.
+Uma vez com $5 \times 25$ imagens do tabuleiro, utilizou-se a função \textit{findChessboardCorners}\cite{CameraCalibration} para encontrar os $48$ pontos para cada imagem. Com o conjunto de $25 \times 48$ pontos em cada pacote, utilizou-se a função \textit{calibrateCamera}\cite{CameraCalibration} para capturar a matriz intrínseca e os coeficientes de distorção como parâmetros intrínsecos; e os vetores de rotação e translação referentes aos parâmetros extrínsecos.
 
-Para o requisito 4, foi mesclar os resultados obtidos nos requisitos 2 e 3 com o requisito 1. Como obteve-se os parâmetros intrínsecos, extrínsecos e a interface do requisito 1.
+Com os parâmetros intrínsecos, pegou-se a média e desvio padrão das 5 matrizes intrínsecas(uma para cada pacote) e dos 5 coeficientes de distorção. 
 
-Para o código, seguiu-se a metodologia de utilizar funções já implementadas pela OpenCV para encontrar vertices do tabuleiro de xadrez, calcular os parâmetros das matrizes $In$ e $Ex$ da Equação (\ref{eq:matrizes}).
+Ja os parâmetros extrínsecos, que foram também obtidos pela função \textit{calibrateCamera} variam conforme a posição, ou seja, entre os pacotes, não podemos semelhantemente aos parâmetros intrínsecos. Para isso, pega-se apenas um pacote de 25 imagens e calcula-se a posição média do padrão à câmera.
+
+Então, para verificar o efeito da distância do padrão sobre os parâmetros extrínsecos, fez-se o mesmo processo de 5 pacotes para 3 distâncias: a mais distante que ainda capturava o padrão, a menor distância que se reconhecia todos os pontos do tabuleiro, e uma distância intermediária. Apenas para a distância mais próxima era possível apenas 1 pacote de medição, visto que o tabuleiro ocupa a tela totalmente. Para cada distância, mediu-se com uma trena a distância entre a câmera 
+
+Para o requisito 4, foi mesclar os resultados obtidos nos requisitos 2 e 3 com o requisito 1 pois a interface, os parâmetros intrínsecos e extrínsecos foram obtidos nos requisitos anteriores.
+
+Para implementação do código, seguiu-se a metodologia de utilizar funções já implementadas pela OpenCV para encontrar vertices do tabuleiro de xadrez, calcular os parâmetros das matrizes $In$ e $Ex$ da Equação (\ref{eq:matrizes}). Para implementação primeiramente pensou-se em utilizar C++, mas por dificuldade na utilização de funções especificas da OpenCV optou-se por utilizar Python. Para escolha da câmera, optou-se por uma webcam, visto que outra câmera auto ajustava o seu foco e isso mudava os parâmetros intrínsecos frequentemente.

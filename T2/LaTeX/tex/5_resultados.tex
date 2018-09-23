@@ -1,3 +1,41 @@
 \section{Resultados}
 \label{resultados}
-\lipsum[1]
+
+
+Os requisitos foram separados e divididos pelos requisitos através dos códigos \textit{r1} a \textit{r4}. Para o código \textit{r1}, obteve-se simplesmente uma interface do usuário em que com dois cliques do mouse era possível medir a distância em píxeis entre dois pontos.
+
+Com a captura das imagens pelo algoritmo \textit{get\_images}, obteve-se a média e desvio padrão das 5 matrizes intrínsecas e coefientes de distorção através do algoritmo \textit{r2}. Os valores dos parâmetros das matrizes intrínsecas são mostrados pela Tabela (\ref{tab:intrisec}). 
+
+\begin{table}[!ht]
+\centering
+\label{tab:intrisec}
+\caption{Parâmetros intrínsecos da matriz $In$ para diferentes distâncias com medida central}
+\begin{tabular}{c|c|c|c|c|c|c|}
+\cline{2-7}
+                            & $In_1$ & $In_2$ & $In_3$ & $In_4$ & $In_5$ & $In\ (\overline{x} \pm \sigma)$           \\ \hline
+\multicolumn{1}{|c|}{$f_x$} & 721    & 1154   & 1739   & 1052   & 1955   & $1324 \pm 455$ \\ \hline
+\multicolumn{1}{|c|}{$f_y$} & 728    & 1164   & 1846   & 1079   & 3219   & $1607 \pm 884$ \\ \hline
+\multicolumn{1}{|c|}{$c_x$} & 634    & 714    & 639    & 649    & 633    & $654 \pm 30$   \\ \hline
+\multicolumn{1}{|c|}{$c_y$} & 374    & 316    & 369    & 334    & 353    & $349 \pm 22$   \\ \hline
+\end{tabular}
+\end{table}
+
+
+Ja os parâmetros extrínsecos, que foram também obtidos pela função
+
+
+
+% \begin{table}[!ht]
+% \centering
+% \label{tab:intrisec}
+% \caption{Parâmetros distorcao}
+% \begin{tabular}{c|c|c|c|}
+% \cline{2-4}
+%                           & Curta (18 cm) & Media (70 cm)   & Longa (150 cm) \\ \hline
+% \multicolumn{1}{|c|}{pri} & -0.0140       & 32.227          & -55.596        \\ \hline
+% \multicolumn{1}{|c|}{seg} & 0.0131        & 0.0769          & 17969          \\ \hline
+% \multicolumn{1}{|c|}{ter} & 0.0011        & -0.0009         & -0.1466        \\ \hline
+% \multicolumn{1}{|c|}{qua} & 0.0008        & 0.2128          & -0.3573        \\ \hline
+% \multicolumn{1}{|c|}{qui} & -0.2075       & 0.0001          & 18.454         \\ \hline
+% \end{tabular}
+% \end{table}
