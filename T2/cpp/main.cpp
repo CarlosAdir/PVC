@@ -57,7 +57,8 @@ int main(int argc, char** argv)
 		}
 		if(draw_line == true)
 		{
-			cv::line(img->getImg(), cv::Point(xa, ya), cv::Point(xb, yb), black);
+			// Nao ha a funcao linha na opencv, embora a documentacao fale que exista
+			//cv::line(img->getImg(), cv::Point(xa, ya), cv::Point(xb, yb), black);
 		}
 		cv::imshow(window_name, img->getImg());
 		key = cv::waitKey(10);
