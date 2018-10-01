@@ -50,10 +50,11 @@ Z \\
 \begin{figure}[!ht]
 \centering
 \label{fig:PinholeCamera}
-\includegraphics[width=0.3\textwidth]{img/PinholeCameraModel.png}
+\includegraphics[width=0.5\textwidth]{img/PinholeCameraModel.png}
 \caption{Modelo da câmera Pinhole}
+\small{Fonte:OpenCV Camera Calibration}\cite{CameraCalibration}
 \end{figure}
 
-Segundo Fulano, é necessário apenas 6 pontos para determinar todos os parâmetros intrínsecos e extrínsecos da câmera. Mas para aumentar a precisão dos parâmetros e diminuir a incerteza associada, pode-se utilizar mais pontos conhecidos. % Explicar melhor sobre a determinação de pontos
+É necessário apenas 6 pontos para determinar todos os parâmetros intrínsecos e extrínsecos da câmera. Mas para aumentar a precisão dos parâmetros e diminuir a incerteza associada a cada ponto, pode-se utilizar mais pontos conhecidos e diminuir o erro devido ao ruido.
 
-Contudo, como toda a teoria exposta para calibração de câmera considera o modelo de câmera Pinhole e as câmeras digitais são feitas de diversas formas como mostra Raskar\cite{raskar}. Devido a essa variação entre câmeras, existem câmeras que autoajustam seu foco e portanto os parâmetros intrínsecos variam.
+Contudo, como toda a teoria exposta para calibração de câmera considera o modelo de câmera Pinhole e as câmeras digitais são feitas de diversas formas como mostra em Raskar\cite{raskar}. Devido a essa variação entre câmeras, existem câmeras que autoajustam seu foco e portanto os parâmetros intrínsecos variam.
